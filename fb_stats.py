@@ -232,10 +232,9 @@ DEFAULT_PLOTS = [
 
 
 def build_argparser():
-    p = argparse.ArgumentParser(
+    src = argparse.ArgumentParser(
         description="Filterbank channel stats with advanced diagnostics"
     )
-    src = p.add_mutually_exclusive_group(required=False)
     src.add_argument(
         "-f",
         type=str,
