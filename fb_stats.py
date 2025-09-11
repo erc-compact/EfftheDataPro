@@ -140,23 +140,28 @@ def chan_frequencies(fch1: float, foff: float, nch: int) -> np.ndarray:
 
 
 def plot_medians(ax, t, med_means, med_stds, title=None):
-    ax.plot(t, med_means, label="Median of Channel Means", color='tab:blue')
+    fig = ax.figure  # Get the parent figure from ax
+    title_prefix=""
+    # Create 2 vertically stacked subplots in the same space as ax
+    # This assumes ax is part of a subplot layout; we replace it
+    gs = ax.get_subplotspec().subgridspec(2, 1, height_ratios=[1, 1])
+    ax.remove()
 
-    # Add shaded region for ±1 std
-    ax.fill_between(
-        t,
-        med_means - med_stds,
-        med_means + med_stds,
-        color='tab:blue',
-        alpha=0.3,
-        label="±1 Std Dev"
-    )
+    ax1 = fig.add_subplot(gs[0])
+    ax2 = fig.add_subplot(gs[1], sharex=ax1)
 
-    ax.set_ylabel("Value")
-    if title:
-        ax.set_title(title)
-    ax.grid(True)
-    ax.legend()
+    # --- Top: Median of channel means ---
+    ax1.plot(t, med_means, color="tab:blue")
+    ax1.set_ylabel("Median Mean")
+    ax1.set_title(f"{title_prefix} Median of Channel Means")
+    ax1.grid(True)
+
+    # --- Bottom: Median of channel stds ---
+    ax2.plot(t, med_stds, color="tab:orange")
+    ax2.set_ylabel("Median Std")
+    ax2.set_xlabel("Gulp Index")
+    ax2.set_title(f"{title_prefix} Median of Channel Stds")
+    ax2.grid(True)
 
 
 
