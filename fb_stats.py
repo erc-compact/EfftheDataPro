@@ -140,13 +140,24 @@ def chan_frequencies(fch1: float, foff: float, nch: int) -> np.ndarray:
 
 
 def plot_medians(ax, t, med_means, med_stds, title=None):
-    ax.plot(t, med_means, label="Median of Channel Means")
-    ax.plot(t, med_stds, label="Median of Channel Stds")
+    ax.plot(t, med_means, label="Median of Channel Means", color='tab:blue')
+
+    # Add shaded region for ±1 std
+    ax.fill_between(
+        t,
+        med_means - med_stds,
+        med_means + med_stds,
+        color='tab:blue',
+        alpha=0.3,
+        label="±1 Std Dev"
+    )
+
     ax.set_ylabel("Value")
     if title:
         ax.set_title(title)
     ax.grid(True)
     ax.legend()
+
 
 
 def plot_quantile_ribbons(ax, t, arr, title, ylabel):
@@ -223,6 +234,7 @@ DEFAULT_PLOTS = [
     "zscore_heatmap",
     "sk_heatmap",
     "hexbin_mean_std",
+    "waterfall",
 ]
 
 
@@ -686,7 +698,7 @@ def main():
                 dyn = block.data.astype(np.float64).reshape(
                     (fil.header.nchans, nsamp), order="F"
                 )
-                dyn = dyn - dyn.mean(axis=1, keepdims=True)
+                # dyn = dyn - dyn.mean(axis=1, keepdims=True)
                 vmin_w, vmax_w = percentile_clip(dyn, args.pclip_waterfall)
                 extent_w = [start_sec, start_sec + dur_sec, y_min, y_max]
                 plot_heatmap(
@@ -694,7 +706,7 @@ def main():
                     dyn,
                     xlabel="Time (s)",
                     ylabel=y_label,
-                    title="Waterfall (mean-subtracted)",
+                    title="Waterfall",
                     cmap="viridis",
                     vmin=vmin_w,
                     vmax=vmax_w,
