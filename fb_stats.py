@@ -232,15 +232,15 @@ DEFAULT_PLOTS = [
 
 
 def build_argparser():
-    src = argparse.ArgumentParser(
+    p = argparse.ArgumentParser(
         description="Filterbank channel stats with advanced diagnostics"
     )
-    src.add_argument(
+    p.add_argument(
         "-f",
         type=str,
         help="Path to filterbank file (needed to compute or to plot waterfall)",
     )
-    src.add_argument(
+    p.add_argument(
         "--npz-in",
         type=str,
         help="Path to a previously saved .npz stats file to load and plot",
