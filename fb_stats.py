@@ -145,7 +145,6 @@ def plot_medians(ax, t, med_means, med_stds, title=None):
     # Create 2 vertically stacked subplots in the same space as ax
     # This assumes ax is part of a subplot layout; we replace it
     gs = ax.get_subplotspec().subgridspec(2, 1, height_ratios=[1, 1])
-    ax.remove()
 
     ax1 = fig.add_subplot(gs[0])
     ax2 = fig.add_subplot(gs[1], sharex=ax1)
