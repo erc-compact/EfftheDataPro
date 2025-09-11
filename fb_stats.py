@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """
 Filterbank channel statistics with flexible, separable plotting.
+Author: Fazal Kareem
+Version: V2.1
+Date: 12-08-2025
 
 NEW in this version
 - Z-score heatmap (robust, per-channel z across time)
